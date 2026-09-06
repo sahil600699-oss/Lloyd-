@@ -16,7 +16,8 @@ def home():
     return 'Bot is live and active!', 200
 
 def run_flask():
-    port = int(os.environ.get("PORT", 8080))
+    # Render default port 10000 hota hai
+    port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
 
 def keep_alive():
@@ -35,13 +36,13 @@ if MONGO_URI:
     try:
         # Sync MongoClient for backup/recovery
         cluster = MongoClient(MONGO_URI)
-        db = cluster['javer_database']
+        db = cluster['Lloyd']
         
-        # Async Motor Client for Async Cogs (Welcome, etc.)
+        # Async Motor Client for Async Cogs
         motor_client = AsyncIOMotorClient(MONGO_URI)
-        async_db = motor_client['javer_database']
+        async_db = motor_client['Lloyd']
         
-        print('[MongoDB] Successfully connected to javer_database!')
+        print('[MongoDB] Successfully connected to Lloyd database!')
 
         storage_collections = [
             'welcome_setup', 'welcome', 'welcome_settings',
@@ -54,8 +55,8 @@ if MONGO_URI:
         ]
 
         existing_dbs = cluster.list_database_names()
-        for old_db_name in ['test', 'javer', 'bot_db', 'discord_bot', 'my_database']:
-            if old_db_name in existing_dbs and old_db_name != 'javer_database':
+        for old_db_name in ['javer_database', 'test', 'javer', 'bot_db', 'discord_bot', 'my_database']:
+            if old_db_name in existing_dbs and old_db_name != 'Lloyd':
                 old_db = cluster[old_db_name]
                 for coll in storage_collections:
                     if coll in old_db.list_collection_names():
@@ -141,4 +142,4 @@ if __name__ == '__main__':
         asyncio.run(main())
     except KeyboardInterrupt:
         print("Bot shutdown gracefully.")
-        
+            
